@@ -13,7 +13,6 @@ LeagueInvaders(){
 }
 public static void main(String[] args) {
 	LeagueInvaders l = new LeagueInvaders();
-	
 	l.setup();
 }
 void setup() {
@@ -21,6 +20,7 @@ void setup() {
 	frame.setPreferredSize(new Dimension(width,height));
 	frame.setVisible(true);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.addKeyListener(panel);
 	frame.pack();
 }
 
