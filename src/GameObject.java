@@ -5,10 +5,8 @@ public class GameObject {
 	int y;
 	int width;
 	int height;
-	boolean up;
-	boolean down;
-	boolean left;
-	boolean right;
+	int speed;
+	boolean isActive = true;
 
 	GameObject(int x, int y, int width, int height) {
 		this.x = x;
@@ -18,21 +16,7 @@ public class GameObject {
 	}
 
 	void update() {
-		if (up == true) {
-			y -= 5;
-		}
-		if (down == true) {
-			y += 5;
-		}
-		if (left == true) {
-			x -= 5;
-		}
-		if (right == true) {
-			x += 5;
-		}
+
 	}
 
-	void draw(Graphics graphics) {
-		graphics.fillRect(x, y, 100, 100);
-	}
 }
