@@ -19,12 +19,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font Subtext;
 	Timer frameDraw;
+	Timer alienSpawn;
 	GameObject object;
 	Rocketship rocket = new Rocketship(250, 700, 50, 50);
 	ObjectManager manager = new ObjectManager(rocket);
 	public static BufferedImage image;
 	public static boolean needImage = true;
-	public static boolean gotImage = false;	
+	public static boolean gotImage = false;
 
 	void Font() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -40,16 +41,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		Font();
 		Timer();
 		if (needImage) {
-		    loadImage ("space.png");
+			loadImage("space.png");
 		}
 	}
 
 	void updateMenuState() {
-		manager.update();
+	
 	}
 
 	void updateGameState() {
-
+		manager.update();
 	}
 
 	void updateEndState() {
@@ -69,13 +70,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		if (needImage) {
-		    loadImage ("space.png");
+		if (gotImage) {
+			g.drawImage(image, 0, 0, LeagueInvaders.width, LeagueInvaders.height, null);
+		} else {
+			g.setColor(Color.BLUE);
+			g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		}
-		else {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, 500, 800);
-		}
+
 		manager.draw(g);
 	}
 
@@ -125,6 +126,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		startGame();
 		System.out.println("key pressed");
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
@@ -132,6 +134,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			} else {
 				currentState++;
 			}
+		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && currentState == GAME) {
+			manager.addProjectile(rocket.getProjectile());
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			rocket.up();
@@ -152,16 +157,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		System.out.println("key released");
 	}
-	
+
 	void loadImage(String imageFile) {
-	    if (needImage) {
-	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
-	        } catch (Exception e) {
-	            
-	        }
-	        needImage = false;
-	    }
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
+		}
+	}
+
+	void startGame() {
+		alienSpawn = new Timer(1000, manager);
+		alienSpawn.start();
 	}
 }

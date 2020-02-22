@@ -7,22 +7,21 @@ import javax.imageio.ImageIO;
 public class Alien extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
-	public static boolean gotImage = false;	
+	public static boolean gotImage = false;
+
 	Alien(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 1;
+		super.speed = 1;
 		if (needImage) {
-		    loadImage ("alien.png");
+			loadImage("alien.png");
 		}
 	}
 
 	void update() {
-		y = (y += speed);
+		y = y + speed;
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(x, y, width, height);
 		if (gotImage) {
 			g.drawImage(image, x, y, width, height, null);
 		} else {
@@ -30,16 +29,17 @@ public class Alien extends GameObject {
 			g.fillRect(x, y, width, height);
 		}
 	}
+
 	void loadImage(String imageFile) {
-	    if (needImage) {
-	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
-	        } catch (Exception e) {
-	            
-	        }
-	        needImage = false;
-	    }
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
+		}
 	}
 
 }
