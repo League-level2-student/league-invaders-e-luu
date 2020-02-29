@@ -51,6 +51,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		manager.update();
+		if (rocket.isActive = false) {
+			currentState = END;
+		}
 	}
 
 	void updateEndState() {
@@ -126,15 +129,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		startGame();
+		
 		System.out.println("key pressed");
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
+				
+					alienSpawn.stop();
+				
 				currentState = MENU;
+				
 			} else {
 				currentState++;
 			}
+			if (currentState == GAME) {
+				startGame();
+			}
 		}
+	
+		
 		if (e.getKeyCode() == KeyEvent.VK_SPACE && currentState == GAME) {
 			manager.addProjectile(rocket.getProjectile());
 		}
